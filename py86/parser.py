@@ -65,28 +65,29 @@ class Y86Assembler(Parser):
     _lens = {
         'halt': 1, 'nop': 1, 'rrmovq': 2, 'irmovq': 10, 'rmmovq': 10,
         'mrmovq': 10, 'andq': 2, 'xorq': 2, 'addq': 2, 'subq': 2,
-        'jmp': 9, 'jle': 9, 'jl': 9, 'je': 9, 'jne': 9, 'jge': 9,
-        'jg': 9, 'cmovle': 2, 'cmovl': 2, 'cmove': 2, 'cmovne': 2,
-        'cmovge': 2, 'cmovg': 2, 'call': 9, 'ret': 1, 'pushq': 2,
-        'popq': 2,
+        'iaddq': 10, 'jmp': 9, 'jle': 9, 'jl': 9, 'je': 9, 'jne': 9,
+        'jge': 9, 'jg': 9, 'cmovle': 2, 'cmovl': 2, 'cmove': 2,
+        'cmovne': 2, 'cmovge': 2, 'cmovg': 2, 'call': 9, 'ret': 1,
+        'pushq': 2, 'popq': 2,
     }
 
     @staticmethod
     def _get_addresses(toks):
         addresses, cur, _lens = {}, 0, Y86Assembler._lens
-        for tok in toks:
+        toks = list(toks)
+        for i, tok in enumerate(toks):
             # add instruction length to cursor
             if tok.type.lower() in _lens:
-               cur += _lens[tok.type.lower()]
+                cur += _lens[tok.type.lower()]
 
             # align cursor on `al` byte boundary
             elif tok.type == 'ALIGN':
-                al = next(toks).value
+                al = toks[i + 1].value
                 cur += (al - (cur % al)) % al
 
             # pos give an absolute address
             elif tok.type == 'POS':
-                cur = next(toks).value
+                cur = toks[i + 1].value
 
             elif tok.type in ['BYTE', 'WORD', 'LONG', 'QUAD']:
                 cur += {
@@ -99,7 +100,7 @@ class Y86Assembler(Parser):
             # and not used as an immediate
             elif tok.type == 'IDENTIFIER':
                 try:
-                    nt = next(toks)
+                    nt = toks[i + 1]
                 except:
                     break
 
@@ -271,6 +272,10 @@ class Y86Assembler(Parser):
         return Directive('identifier', label=p.IDENTIFIER)
 
     for _tok in ['BYTE', 'WORD', 'LONG', 'QUAD']:
+        @_(f'{_tok} IDENTIFIER')
+        def static(self, p, _tok=_tok.lower()):
+            return Directive(_tok, data=self._addresses[p.IDENTIFIER])
+
         @_(f'{_tok} IMMEDIATE')
         def static(self, p, _tok=_tok.lower()):
             return Directive(_tok, data=p.IMMEDIATE)
