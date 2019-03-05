@@ -43,7 +43,7 @@ class Directive:
         if self.which not in ['byte', 'word', 'long', 'quad']:
             raise ValueError(f'directive {self} does not store data')
 
-        ln = {'byte': 'b', 'word': 'h', 'long': 'l', 'quad': 'q'}[self.which]
+        ln = {'byte': 'B', 'word': 'H', 'long': 'L', 'quad': 'Q'}[self.which]
         return struct.pack(f'<{ln}', self.data)
 
 

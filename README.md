@@ -21,7 +21,7 @@ py86 test/y86-code/j-cc.ys
 You may find the addresses of each label in a file using:
 ```sh
 py86l test/y86-code/abs-asum-cmov.ys
-{'array': 24, 'main': 56, 'absSum': 85, 'test': 140, 'stack': 512}
+{'array': 24, 'main': 56, 'absSum': 86, 'loop': 119, 'test': 141, 'stack': 512}
 ```
 
 The assembler is accessible from python if needed:
