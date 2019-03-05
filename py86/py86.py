@@ -15,6 +15,7 @@ def asm():
 
     if not os.path.exists(args.file):
         print(f'path {args.file} does not exist')
+        sys.exit()
     
     try:
         f = open(args.file)
@@ -31,6 +32,7 @@ def asm():
     except Exception as e:  # general af
         print(f'could not assemble {args.file}:')
         print(e)
+        sys.exit()
     
     if args.out != False:
         with open(args.out, 'wb') as f:

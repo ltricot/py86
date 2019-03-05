@@ -86,7 +86,13 @@ class Y86Assembler(Parser):
 
             # pos give an absolute address
             elif tok.type == 'POS':
-                cur += next(toks).value
+                cur = next(toks).value
+
+            elif tok.type in ['BYTE', 'WORD', 'LONG', 'QUAD']:
+                cur += {
+                    'BYTE': 1, 'WORD': 2,
+                    'LONG': 4, 'QUAD': 8,
+                }[tok.type]
 
             # add identifier to addresses
             # must make sure this is indeed a label

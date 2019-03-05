@@ -9,7 +9,10 @@ setup(
     name='py86',
     version='0.1',
     packages=find_packages(),
-    entry_points={'console_scripts': ['py86=py86.py86:asm']},
+    entry_points={'console_scripts': [
+        'py86=py86.py86:asm',
+        'py86l=py86.locations:locate'
+    ]},
     test_suite='test.testasm',
 
     # dependencies
