@@ -36,3 +36,6 @@ cd test
 python -m unittest
 ```
 
+## License
+
+See the [license](./LICENSE) for py86's license and the [sly license](https://github.com/dabeaz/sly/blob/master/LICENSE) for the SLY license. SLY is a python library used for parsing.
