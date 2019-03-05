@@ -32,8 +32,7 @@ print(bytecode)
 
 To discover the current bugs, you may run the tests:
 ```sh
-cd test
-python -m unittest
+python setup.py test
 ```
 
 ## License
