@@ -15,7 +15,7 @@ instructions = {k: k.upper().lstrip('.') for k in _instr_keys}
 
 class Y86Lexer(Lexer):
     tokens = {
-        IDENTIFIER, IMMEDIATE, REGISTER, NEWLINE,
+        IDENTIFIER, IMMEDIATE, REGISTER,
 
         # instructions
         RRMOVQ, CMOVLE, CMOVL, CMOVE, CMOVNE, CMOVGE, CMOVG, RMMOVQ,
@@ -33,7 +33,7 @@ class Y86Lexer(Lexer):
          r'|%r8|%r9|%r10|%r11|%r12|%r13|%r14')
 
     @_(r'[\r\n]')
-    def ignore_NEWLINE(self, t):
+    def ignore_newline(self, t):
         self.lineno += 1
 
     @_(r'[\.]?[a-zA-Z]\w+')

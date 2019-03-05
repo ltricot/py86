@@ -10,7 +10,14 @@ cd py86
 python setup.py install
 ```
 
-You may then use py86 from python code as follows:
+## Use
+
+You may then use the installed command as follows:
+```sh
+py86 code.ys -o code.yo
+```
+
+The assembler is accessible from python if needed:
 ```python
 from py86 import assemble
 
@@ -20,10 +27,8 @@ with open('code.ys') as f:
 print(bytecode)
 ```
 
-A script is provided for convenience (this will be better in the future, WIP):
-```sh
-python py86/parser.py code.ys
-```
+
+## Running the tests
 
 To discover the current bugs, you may run the tests:
 ```sh
