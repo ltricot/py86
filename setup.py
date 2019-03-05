@@ -6,7 +6,8 @@ setup(
     packages=find_packages(),
 
     # dependencies
-    install_requires=['sly==0.3'],
+    install_requires=['sly==0.3'],  # all parsing
+    python_requires='>=3.7.0',      # dataclasses
 
     # metadata
     author='Loan Tricot',
