@@ -1,0 +1,10 @@
+*__pycache__*
+yas
+y86-code
+
+build
+dist
+py86.egg-info
+
+.python-version
+

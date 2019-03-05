@@ -4,7 +4,8 @@ from binascii import hexlify
 import struct
 
 from sly import Parser
-from lexer import Y86Lexer
+
+from .lexer import Y86Lexer
 
 
 @dataclass
@@ -39,7 +40,9 @@ class Directive:
     data:  int = None  # for data & pos & align
 
     def encode(self):  # only relevant if directive stores data
-        assert self.which in ['byte', 'word', 'long', 'quad']
+        if self.which not in ['byte', 'word', 'long', 'quad']:
+            raise ValueError(f'directive {self} does not store data')
+
         ln = {'byte': 'b', 'word': 'h', 'long': 'l', 'quad': 'q'}[self.which]
         return struct.pack(f'<{ln}', self.data)
 
@@ -112,7 +115,12 @@ class Y86Assembler(Parser):
 
     @_('program pos')
     def program(self, p): 
-        assert p.pos.data >= len(p.program)
+        if p.pos.data < len(p.program):
+            raise ValueError(
+                'py86 does not support overwriting previous code '
+                'through a nonsensical .pos directive'
+            )
+
         p.program.extend(b'\x00' * (p.pos.data - len(p.program)))
         return p.program
 
@@ -245,7 +253,11 @@ class Y86Assembler(Parser):
 
     @_('ALIGN IMMEDIATE')
     def align(self, p):
-        assert p.IMMEDIATE in (2, 4, 8)
+        if p.IMMEDIATE not in (2, 4, 8):
+            raise ValueError(
+                f'align value ({p.IMMEDIATE}) must be 2, 4 or 8'
+            )
+
         return Directive('align', data=p.IMMEDIATE)
 
     @_('IDENTIFIER ":"')
