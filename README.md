@@ -6,21 +6,33 @@ A python-written assembler for the toy Y86 assembly language. Created for educat
 
 Use the familiar `git clone https://github.com/ltricot/py86`, then:
 ```sh
-cd py86
-python setup.py install
+$ cd py86
+$ python setup.py install
 ```
 
 ## Use
 
 You may then use the installed command as follows:
 ```sh
-py86 test/y86-code/j-cc.ys
+$ py86 test/y86-code/j-cc.ys
 30f6010000000000000030f7020000000000000030f5040000000000000030f0e0ffffffffffffff30f240000000000000006120733e000000000000001000606210101000
+
+$ py86 -h
+usage: py86 [-h] [-o OUT] file
+
+assemble a .ys file
+
+positional arguments:
+  file               path to .ys file
+
+optional arguments:
+  -h, --help         show this help message and exit
+  -o OUT, --out OUT  path to output file
 ```
 
 You may find the addresses of each label in a file using:
 ```sh
-py86l test/y86-code/abs-asum-cmov.ys
+$ py86l test/y86-code/abs-asum-cmov.ys
 {'array': 24, 'main': 56, 'absSum': 86, 'loop': 119, 'test': 141, 'stack': 512}
 ```
 
@@ -39,7 +51,7 @@ print(bytecode)
 
 To discover the current bugs, you may run the tests:
 ```sh
-python setup.py test
+$ python setup.py test
 ```
 
 ## License
